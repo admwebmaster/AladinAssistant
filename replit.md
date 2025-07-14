@@ -1,112 +1,120 @@
-# Aladin IA Assistant - Loan Quote Management System
+# Aladin IA Assistant - React Native Mobile App
 
 ## Overview
 
-This is a full-stack web application built for managing loan quotes. The system provides user authentication and quote management functionality through a modern React frontend with a Node.js/Express backend. The application uses external APIs for authentication and data management while maintaining a clean, responsive user interface built with shadcn/ui components.
+This is a React Native mobile application built with Expo for managing loan quotes. The app provides user authentication and quote management functionality through a modern mobile interface. The application uses external APIs for authentication and data management while maintaining a clean, responsive user interface designed specifically for mobile devices.
 
 ## System Architecture
 
-### Frontend Architecture
-- **Framework**: React 18 with TypeScript
-- **Routing**: Wouter for client-side routing
-- **State Management**: TanStack Query (React Query) for server state management
-- **UI Framework**: shadcn/ui components built on Radix UI primitives
-- **Styling**: Tailwind CSS with CSS custom properties for theming
-- **Form Handling**: React Hook Form with Zod validation
-- **Build Tool**: Vite for development and production builds
+### Mobile Architecture
+- **Framework**: React Native with Expo SDK 53
+- **Runtime**: TypeScript with React Native 0.79.5
+- **Navigation**: React Navigation 7.x with Native Stack Navigator
+- **State Management**: React Context API for authentication state
+- **Storage**: AsyncStorage for client-side token and user data persistence
+- **HTTP Client**: Axios for API requests with interceptors
+- **UI Components**: Native React Native components with custom styling
+- **Icons**: Expo Vector Icons (Ionicons)
+- **Gradients**: Expo Linear Gradient for visual effects
 
-### Backend Architecture
-- **Runtime**: Node.js with Express.js framework
-- **Language**: TypeScript with ES modules
-- **Database ORM**: Drizzle ORM configured for PostgreSQL
-- **Database**: PostgreSQL (configured but using external APIs primarily)
-- **Authentication**: External API integration (gateway.teamupservice.com)
-- **Session Management**: Local storage for client-side token management
+### Authentication System
+- **External API**: JWT token-based authentication via gateway.teamupservice.com
+- **Token Storage**: AsyncStorage for persistent token management
+- **Context Provider**: React Context for global authentication state
+- **Protected Routes**: Navigation-based authentication guards
 
-### Data Storage
-- **Primary Database**: PostgreSQL with Neon serverless driver
-- **Schema Management**: Drizzle Kit for migrations and schema management
-- **In-Memory Storage**: Fallback storage implementation for development
-- **External APIs**: Primary data source for authentication and quote management
+### Data Management
+- **Primary Data Source**: External REST API endpoints
+- **Token Management**: Automatic token inclusion in API requests
+- **Error Handling**: Comprehensive error handling with user-friendly messages
+- **Data Persistence**: Local storage for user session data
 
 ## Key Components
 
+### Mobile Screens
+- **LoginScreen**: User authentication with email/password
+- **RegisterScreen**: User registration with nome, cognome, email, password
+- **PreventiviScreen**: Quote listing and management interface
+- **SpeechScreen**: Voice recognition UI (static implementation)
+
 ### Authentication System
-- JWT token-based authentication through external API
-- Local storage for token persistence
-- Protected routes with authentication guards
-- Login/Register forms with validation
+- **AuthContext**: React Context for global authentication state
+- **JWT Token Management**: AsyncStorage for persistent token storage
+- **External API Integration**: gateway.teamupservice.com for auth endpoints
+- **Protected Navigation**: Route-based authentication guards
 
 ### Quote Management
-- Quote listing and display functionality
-- Status tracking (In attesa, etc.)
-- Comprehensive quote data model including personal and financial information
-- External API integration for quote data retrieval
+- **Quote Listing**: FlatList with refresh functionality
+- **Status Tracking**: Color-coded badges for quote states
+- **Data Display**: Formatted currency, dates, and loan terms
+- **Action Buttons**: View and delete options for each quote
 
 ### UI Components
-- Complete shadcn/ui component library implementation
-- Responsive design with mobile-first approach
-- Toast notifications for user feedback
-- Loading states and error handling
-- Dark/light theme support via CSS custom properties
+- **Native React Native Components**: StyleSheet-based custom styling
+- **Linear Gradients**: Purple gradient theme matching design
+- **Ionicons**: Vector icons for consistent visual language
+- **TouchableOpacity**: Interactive elements with proper feedback
+- **Loading States**: ActivityIndicator for async operations
 
-### Database Schema
-- **Users Table**: Basic user information (nome, cognome, email, password)
-- **Quotes Table**: Comprehensive loan quote data including:
-  - Personal information (nome, cognome, data_nascita, codice_fiscale)
-  - Contact details (indirizzo, numero_telefono, email)
-  - Financial information (occupazione, reddito_mensile, importo_richiesto)
-  - Loan terms (numero_rate, rata_mensile, finalita)
-  - Status tracking and timestamps
+### API Integration
+- **Axios Client**: HTTP client with request/response interceptors
+- **Automatic Token Handling**: JWT tokens added to all authenticated requests
+- **Error Handling**: Comprehensive error management with user alerts
+- **Network Timeouts**: 10-second timeout for API requests
 
 ## Data Flow
 
-1. **User Authentication**: Users authenticate through external API, tokens stored locally
-2. **Quote Data**: Quote information fetched from external APIs
-3. **State Management**: React Query manages server state with caching and synchronization
-4. **UI Updates**: Real-time updates through query invalidation and refetching
-5. **Form Submissions**: Data validated client-side, submitted to external endpoints
+1. **User Registration/Login**: POST requests to external API endpoints
+2. **Token Storage**: JWT tokens saved to AsyncStorage for persistence
+3. **Authentication State**: React Context manages global auth state
+4. **Protected Routes**: Navigation conditionally renders based on auth status
+5. **Quote Fetching**: GET requests with Bearer token authorization
+6. **Error Handling**: Network errors handled with user-friendly alerts
 
 ## External Dependencies
 
 ### Authentication API
-- **Endpoint**: https://gateway.teamupservice.com/api/v2/users/login
-- **Purpose**: User authentication and session management
-- **Integration**: Direct fetch calls from frontend
+- **Register**: POST https://gateway.teamupservice.com/api/v2/users/register
+- **Login**: POST https://gateway.teamupservice.com/api/v2/users/login
+- **Quotes**: GET https://gateway.teamupservice.com/api/v2/preventivi
 
-### UI Libraries
-- **Radix UI**: Accessible component primitives
-- **Tailwind CSS**: Utility-first styling framework
-- **Lucide React**: Icon library
-- **React Hook Form**: Form management and validation
+### Mobile Libraries
+- **React Navigation**: Native stack navigation between screens
+- **Expo Linear Gradient**: Gradient backgrounds and buttons
+- **AsyncStorage**: Persistent storage for tokens and user data
+- **Axios**: HTTP client with interceptors for API requests
+- **Expo Vector Icons**: Ionicons for consistent iconography
 
 ### Development Tools
-- **Drizzle Kit**: Database schema management
-- **ESBuild**: Production bundling for server
-- **TSX**: TypeScript execution for development
+- **Expo CLI**: Development and build tooling
+- **TypeScript**: Type safety for React Native components
+- **Babel**: JavaScript transpilation for React Native
 
 ## Deployment Strategy
 
 ### Development Environment
-- **Command**: `npm run dev` 
-- **Server**: Express with Vite middleware for HMR
-- **Database**: PostgreSQL with connection pooling
-- **Port**: 5000 (configured in .replit)
+- **Command**: `npm start` (Expo CLI)
+- **Platform**: Expo Go app for testing on mobile devices
+- **QR Code**: Scan with Expo Go to load app on device
+- **Metro Bundler**: JavaScript bundler for React Native
+
+### Testing
+- **Expo Go**: Test app on iOS and Android devices
+- **Hot Reload**: Real-time code updates during development
+- **Device Testing**: Physical device testing via QR code scanning
 
 ### Production Build
-- **Client Build**: Vite builds static assets to `dist/public`
-- **Server Build**: ESBuild bundles server code to `dist/index.js`
-- **Deployment**: Autoscale deployment target on Replit
-- **Database**: Neon serverless PostgreSQL
-
-### Configuration
-- **Environment Variables**: DATABASE_URL required for database connection
-- **Modules**: Node.js 20, Web, PostgreSQL 16 (Replit configuration)
-- **Port Mapping**: Internal 5000 → External 80
+- **EAS Build**: Expo Application Services for app store builds
+- **Platform Targets**: iOS App Store and Google Play Store
+- **Code Signing**: Automatic signing for distribution
 
 ## Changelog
 
 Changelog:
+- July 14, 2025. Converted from web React app to React Native mobile app with Expo
+- July 14, 2025. All screens implemented: LoginScreen, RegisterScreen, PreventiviScreen, SpeechScreen
+- July 14, 2025. Authentication system with AsyncStorage for token persistence
+- July 14, 2025. App successfully running with Metro bundler and accessible via QR code
 - June 20, 2025. Initial setup
 
 ## User Preferences
