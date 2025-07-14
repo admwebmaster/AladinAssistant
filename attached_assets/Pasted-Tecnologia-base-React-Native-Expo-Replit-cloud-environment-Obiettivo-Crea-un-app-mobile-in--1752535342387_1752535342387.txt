@@ -1,0 +1,175 @@
+Tecnologia base: React Native + Expo + Replit cloud environment
+
+🎯 Obiettivo
+Crea un'app mobile in React Native chiamata Aladin IA Assistente, composta da tre schermate principali:
+
+Registrazione utente
+
+Login utente
+
+Visualizzazione lista preventivi
+
+una schermata UI statica per il riconoscimento vocale
+
+Il progetto deve:
+
+Utilizzare Expo per lo sviluppo mobile
+
+Collegarsi a un backend esterno tramite API JWT
+
+Memorizzare il token JWT in AsyncStorage
+
+Utilizzare React Navigation per la navigazione tra schermate
+
+🧱 Setup base del progetto su Replit
+Crea un nuovo Repl con template "Node.js" o "React"
+
+Apri il terminale Replit e installa Expo CLI:
+
+bash
+Copia
+Modifica
+npm install -g expo-cli
+Inizializza un nuovo progetto:
+
+bash
+Copia
+Modifica
+npx create-expo-app AladinIA
+cd AladinIA
+Installa le dipendenze fondamentali:
+
+bash
+Copia
+Modifica
+npm install @react-navigation/native @react-navigation/native-stack
+npm install axios
+npm install @react-native-async-storage/async-storage
+npx expo install react-native-screens react-native-safe-area-context react-native-gesture-handler react-native-reanimated react-native-vector-icons
+🧠 Architettura progetto
+bash
+Copia
+Modifica
+src/
+├── api/
+│   └── api.ts             # Axios + JWT Header setup
+├── context/
+│   └── AuthContext.tsx    # Login/Register context
+├── screens/
+│   ├── LoginScreen.tsx
+│   ├── RegisterScreen.tsx
+│   ├── PreventiviScreen.tsx
+│   └── SpeechScreen.tsx   # solo UI
+├── navigation/
+│   └── AppNavigator.tsx   # Stack Navigator
+└── App.tsx
+🌐 API Endpoints da usare
+✅ Registrazione
+http
+Copia
+Modifica
+POST https://gateway.teamupservice.com/api/v2/users/register
+Body JSON:
+
+json
+Copia
+Modifica
+{
+  "nome": "Paola",
+  "cognome": "Donati",
+  "email": "paola.donati@agenzia.it",
+  "password": "Macret5.98$"
+}
+🔓 Login
+h
+Copia
+Modifica
+POST https://gateway.teamupservice.com/api/v2/users/login
+Body JSON:
+
+json
+Copia
+Modifica
+{
+  "email": "leo.arezzo@gmail.com",
+  "password": "8necvh43$"
+}
+📄 Lista Preventivi
+http
+Copia
+Modifica
+GET https://gateway.teamupservice.com/api/v2/preventivi
+Header: Authorization: Bearer <JWT_TOKEN>
+🧰 Logica app da implementare
+1. Registrazione
+Form con Nome, Cognome, Email, Password
+
+Submit: POST /register
+
+Se ha successo: salva token in AsyncStorage, naviga a lista preventivi
+
+2. Login
+Form con Email, Password
+
+Submit: POST /login
+
+Se ha successo: salva token, dati utente e naviga a lista preventivi
+
+3. Preventivi
+Recupera token da AsyncStorage
+
+Effettua chiamata GET /preventivi
+
+Visualizza lista con: nome, importo, rate, rata, stato (badge colorati)
+
+4. Riconoscimento vocale (UI statica)
+Sfondo sfumato (azzurro, viola, verde)
+
+Icona microfono
+
+Testo: “Pronto per parlare...”
+
+Pulsante "X" in basso
+
+🔒 Gestione token con AsyncStorage
+ts
+Copia
+Modifica
+// Salvataggio
+await AsyncStorage.setItem('token', token);
+
+// Recupero
+const token = await AsyncStorage.getItem('token');
+🔄 Navigazione con React Navigation
+Stack navigation tra le schermate:
+
+tsx
+Copia
+Modifica
+<NavigationContainer>
+  <Stack.Navigator>
+    <Stack.Screen name="Login" component={LoginScreen} />
+    <Stack.Screen name="Register" component={RegisterScreen} />
+    <Stack.Screen name="Preventivi" component={PreventiviScreen} />
+    <Stack.Screen name="Speech" component={SpeechScreen} />
+  </Stack.Navigator>
+</NavigationContainer>
+📌 Note finali per la IA/Replit
+Rispetta il design degli screenshot forniti: colori, layout, pulsanti e testi.
+
+La schermata Speech è solo UI (nessuna funzione microfono attiva).
+
+Organizza il codice in modo modulare per facilitare evoluzioni future.
+
+Eventuali errori o assenza di connessione devono essere gestiti con messaggi chiari in UI.
+
+✅ Obiettivo finale
+Un'app React Native Expo completa, funzionante su Replit + Expo Go, capace di:
+
+Registrare utenti
+
+Effettuare login
+
+Recuperare lista preventivi autenticata
+
+Mostrare una UI moderna e coerente
