@@ -111,6 +111,9 @@ This is a React Native mobile application built with Expo for managing loan quot
 ## Changelog
 
 Changelog:
+- July 15, 2025. Fixed 500 server errors and MIME type issues by cleaning web artifacts
+- July 15, 2025. Removed conflicting server/client web files and created pure React Native setup
+- July 15, 2025. Tunnel working at exp://jrimnl4-anonymous-8081.exp.direct with cache cleared
 - July 14, 2025. Converted from web React app to React Native mobile app with Expo
 - July 14, 2025. All screens implemented: LoginScreen, RegisterScreen, PreventiviScreen, SpeechScreen
 - July 14, 2025. Authentication system with AsyncStorage for token persistence
