@@ -6,8 +6,10 @@
     "main": "index.ts",
     "orientation": "portrait",
     "userInterfaceStyle": "light",
+    "icon": "./attached_assets/icon_transparent_1024_1752628836801.png",
     "splash": {
-      "backgroundColor": "#6A5ACD"
+      "backgroundColor": "#6A5ACD",
+      "image": "./attached_assets/icon_transparent_1024_1752628836801.png"
     },
     "platforms": ["ios", "android", "web"]
   }

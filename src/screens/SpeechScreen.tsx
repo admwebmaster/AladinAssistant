@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
-  StatusBar,
   Dimensions,
+  Animated,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,248 +17,163 @@ interface SpeechScreenProps {
 }
 
 export default function SpeechScreen({ navigation }: SpeechScreenProps) {
-  const [isRecording, setIsRecording] = useState(false);
-  const [hasRecording, setHasRecording] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+  const scaleAnim = useRef(new Animated.Value(1)).current;
 
-  const handleMicPress = () => {
-    setIsRecording(!isRecording);
-    if (!isRecording) {
-      // Simulate recording start
-      setTimeout(() => {
-        setIsRecording(false);
-        setHasRecording(true);
-      }, 3000);
+  useEffect(() => {
+    if (isListening) {
+      // Animazione di pulsazione continua simile a Gemini AI
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(pulseAnim, {
+            toValue: 1.3,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(pulseAnim, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+    } else {
+      pulseAnim.setValue(1);
     }
-  };
+  }, [isListening]);
 
-  const handlePlayback = () => {
-    // Simulate playback
-    console.log('Playing back recording...');
-  };
-
-  const handleSend = () => {
-    // Simulate sending voice message
-    console.log('Sending voice message...');
-    setHasRecording(false);
+  const handleMicrophonePress = () => {
+    setIsListening(!isListening);
+    
+    // Animazione di pressione
+    Animated.sequence([
+      Animated.timing(scaleAnim, {
+        toValue: 0.95,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+    ]).start();
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#8B5CF6" />
-      
-      <LinearGradient
-        colors={['#8B5CF6', '#A855F7', '#C084FC']}
-        style={styles.header}
-      >
-        <View style={styles.headerContent}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-            style={styles.backButton}
-          >
-            <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Assistente Vocale</Text>
-          <View style={styles.placeholder} />
-        </View>
-      </LinearGradient>
-
+    <LinearGradient
+      colors={['#6B5CE7', '#8B5CF6', '#A855F7']}
+      style={styles.container}
+    >
       <View style={styles.content}>
-        <View style={styles.instructionContainer}>
-          <Text style={styles.instructionTitle}>
-            Parla con l'assistente IA
-          </Text>
-          <Text style={styles.instructionText}>
-            Tocca il microfono per iniziare a registrare la tua domanda
-          </Text>
-        </View>
-
-        <View style={styles.micContainer}>
-          <TouchableOpacity
+        <View style={styles.microphoneContainer}>
+          <Animated.View
             style={[
-              styles.micButton,
-              isRecording && styles.micButtonRecording
+              styles.pulseCircle,
+              {
+                transform: [{ scale: pulseAnim }],
+                opacity: isListening ? 0.2 : 0,
+              },
             ]}
-            onPress={handleMicPress}
+          />
+          <Animated.View
+            style={[
+              styles.microphoneButton,
+              {
+                transform: [{ scale: scaleAnim }],
+              },
+            ]}
           >
-            <Ionicons
-              name={isRecording ? 'mic' : 'mic-outline'}
-              size={48}
-              color="#FFFFFF"
-            />
-          </TouchableOpacity>
-          
-          {isRecording && (
-            <View style={styles.recordingIndicator}>
-              <View style={styles.recordingDot} />
-              <Text style={styles.recordingText}>Registrando...</Text>
-            </View>
-          )}
-          
-          {hasRecording && (
-            <View style={styles.recordingControls}>
-              <TouchableOpacity
-                style={styles.controlButton}
-                onPress={handlePlayback}
-              >
-                <Ionicons name="play" size={24} color="#4F46E5" />
-                <Text style={styles.controlButtonText}>Riascolta</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity
-                style={styles.controlButton}
-                onPress={handleSend}
-              >
-                <Ionicons name="send" size={24} color="#10B981" />
-                <Text style={styles.controlButtonText}>Invia</Text>
-              </TouchableOpacity>
-            </View>
-          )}
+            <TouchableOpacity
+              style={styles.microphoneInner}
+              onPress={handleMicrophonePress}
+              activeOpacity={0.8}
+            >
+              <Ionicons 
+                name="mic" 
+                size={36} 
+                color="#B8B5FF" 
+              />
+            </TouchableOpacity>
+          </Animated.View>
         </View>
-
-        <View style={styles.tipsContainer}>
-          <Text style={styles.tipsTitle}>Suggerimenti:</Text>
-          <Text style={styles.tipText}>
-            • Parla chiaramente e a voce alta
-          </Text>
-          <Text style={styles.tipText}>
-            • Evita rumori di fondo
-          </Text>
-          <Text style={styles.tipText}>
-            • Tieni il telefono vicino alla bocca
-          </Text>
-        </View>
+        
+        <Text style={styles.statusText}>
+          {isListening ? 'Sto ascoltando...' : 'Pronto per parlare...'}
+        </Text>
+        
+        <TouchableOpacity
+          style={styles.closeButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="close" size={24} color="rgba(255, 255, 255, 0.8)" />
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F9FAFB',
-  },
-  header: {
-    paddingTop: 20,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-  },
-  headerContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  backButton: {
-    padding: 8,
-  },
-  headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-  },
-  placeholder: {
-    width: 40,
   },
   content: {
     flex: 1,
-    paddingHorizontal: 20,
-  },
-  instructionContainer: {
-    marginTop: 40,
-    alignItems: 'center',
-  },
-  instructionTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1F2937',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  instructionText: {
-    fontSize: 16,
-    color: '#6B7280',
-    textAlign: 'center',
-    lineHeight: 24,
-  },
-  micContainer: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
   },
-  micButton: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: '#8B5CF6',
+  microphoneContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 60,
+  },
+  pulseCircle: {
+    position: 'absolute',
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+  },
+  microphoneButton: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 10,
-    elevation: 10,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 16,
   },
-  micButtonRecording: {
-    backgroundColor: '#EF4444',
-    transform: [{ scale: 1.1 }],
-  },
-  recordingIndicator: {
-    marginTop: 24,
+  microphoneInner: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 50,
   },
-  recordingDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    backgroundColor: '#EF4444',
-    marginBottom: 8,
-  },
-  recordingText: {
+  statusText: {
     fontSize: 16,
-    color: '#EF4444',
-    fontWeight: '600',
-  },
-  recordingControls: {
-    flexDirection: 'row',
-    marginTop: 32,
-    gap: 32,
-  },
-  controlButton: {
-    alignItems: 'center',
-    padding: 16,
-  },
-  controlButtonText: {
-    fontSize: 14,
-    color: '#6B7280',
-    marginTop: 8,
+    color: '#FFFFFF',
+    textAlign: 'center',
     fontWeight: '500',
+    position: 'absolute',
+    bottom: 180,
   },
-  tipsContainer: {
-    marginBottom: 40,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  tipsTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#1F2937',
-    marginBottom: 12,
-  },
-  tipText: {
-    fontSize: 14,
-    color: '#6B7280',
-    marginBottom: 8,
-    lineHeight: 20,
+  closeButton: {
+    position: 'absolute',
+    bottom: 100,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
   },
 });

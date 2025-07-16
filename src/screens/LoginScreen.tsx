@@ -7,13 +7,11 @@ import {
   StyleSheet,
   Alert,
   ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
+  Image,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '../context/AuthContext';
 import { LoginData } from '../api/api';
+import iconImage from '../../attached_assets/icon_transparent_1024_1752628836801.png';
 
 interface LoginScreenProps {
   navigation: any;
@@ -44,138 +42,149 @@ export default function LoginScreen({ navigation }: LoginScreenProps) {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <LinearGradient
-        colors={['#8B5CF6', '#A855F7', '#C084FC']}
-        style={styles.gradient}
-      >
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <View style={styles.content}>
-            <Text style={styles.title}>Aladin IA</Text>
-            <Text style={styles.subtitle}>Assistente</Text>
-            
-            <View style={styles.formContainer}>
-              <Text style={styles.label}>Email</Text>
-              <TextInput
-                style={styles.input}
-                value={email}
-                onChangeText={setEmail}
-                placeholder="Inserisci la tua email"
-                placeholderTextColor="#9CA3AF"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-              
-              <Text style={styles.label}>Password</Text>
-              <TextInput
-                style={styles.input}
-                value={password}
-                onChangeText={setPassword}
-                placeholder="Inserisci la tua password"
-                placeholderTextColor="#9CA3AF"
-                secureTextEntry
-                autoCapitalize="none"
-                autoCorrect={false}
-              />
-              
-              <TouchableOpacity
-                style={styles.button}
-                onPress={handleLogin}
-                disabled={isLoading}
-              >
-                {isLoading ? (
-                  <ActivityIndicator color="#FFFFFF" />
-                ) : (
-                  <Text style={styles.buttonText}>Accedi</Text>
-                )}
-              </TouchableOpacity>
-              
-              <TouchableOpacity
-                style={styles.linkButton}
-                onPress={() => navigation.navigate('Register')}
-              >
-                <Text style={styles.linkText}>
-                  Non hai un account? Registrati
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ScrollView>
-      </LinearGradient>
-    </KeyboardAvoidingView>
+    <View style={styles.container}>
+      <View style={styles.formContainer}>
+        <View style={styles.iconContainer}>
+          <Image source={iconImage} style={styles.iconImage} />
+        </View>
+        
+        <Text style={styles.title}>Aladin IA Assistant</Text>
+        <Text style={styles.subtitle}>Accedi per iniziare la tua esperienza</Text>
+        
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Email</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="nome@esempio.com"
+            placeholderTextColor="#999"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
+        
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Password</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="••••••••"
+            placeholderTextColor="#999"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+          />
+        </View>
+        
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={handleLogin}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <ActivityIndicator color="white" />
+          ) : (
+            <Text style={styles.loginButtonText}>Accedi</Text>
+          )}
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={styles.registerLink}
+          onPress={() => navigation.navigate('Register')}
+        >
+          <Text style={styles.registerLinkText}>
+            Non hai un account? Registrati
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  gradient: {
-    flex: 1,
-  },
-  scrollContainer: {
-    flexGrow: 1,
-  },
-  content: {
-    flex: 1,
+    backgroundColor: '#f5f5f5',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
+  formContainer: {
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 40,
+    width: '100%',
+    maxWidth: 400,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 8,
+  },
+  iconContainer: {
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  iconImage: {
+    width: 80,
+    height: 80,
+    resizeMode: 'contain',
+  },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+    fontSize: 24,
+    fontWeight: '600',
+    color: '#B8B5FF',
     marginBottom: 8,
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 24,
-    color: '#FFFFFF',
-    marginBottom: 50,
+    fontSize: 15,
+    color: '#666',
     textAlign: 'center',
+    marginBottom: 32,
   },
-  formContainer: {
+  inputContainer: {
     width: '100%',
-    maxWidth: 400,
+    marginBottom: 20,
   },
   label: {
-    fontSize: 16,
-    color: '#FFFFFF',
-    marginBottom: 8,
+    fontSize: 15,
     fontWeight: '500',
+    color: '#333',
+    marginBottom: 8,
   },
   input: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E5E5E5',
+    borderRadius: 8,
     padding: 16,
     fontSize: 16,
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: '#E5E7EB',
+    backgroundColor: '#fff',
+    color: '#333',
   },
-  button: {
-    backgroundColor: '#4F46E5',
-    borderRadius: 12,
+  loginButton: {
+    backgroundColor: '#6B5CE7',
+    borderRadius: 8,
     padding: 16,
+    width: '100%',
     alignItems: 'center',
-    marginBottom: 20,
+    marginTop: 8,
+    marginBottom: 24,
   },
-  buttonText: {
-    color: '#FFFFFF',
+  loginButtonText: {
+    color: 'white',
     fontSize: 16,
     fontWeight: '600',
   },
-  linkButton: {
-    alignItems: 'center',
+  registerLink: {
+    marginTop: 8,
   },
-  linkText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    textDecorationLine: 'underline',
+  registerLinkText: {
+    color: '#6B5CE7',
+    fontSize: 15,
   },
 });

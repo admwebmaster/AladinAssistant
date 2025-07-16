@@ -111,6 +111,12 @@ This is a React Native mobile application built with Expo for managing loan quot
 ## Changelog
 
 Changelog:
+- July 16, 2025. Updated all screens to match Italian design screenshots provided by user
+- July 16, 2025. Added custom icon to app using attached Aladin lamp with microphone design
+- July 16, 2025. Implemented SpeechScreen with Gemini AI-style microphone animation and pulsing effects
+- July 16, 2025. Added view and delete functionality for quotes with modal detail screen
+- July 16, 2025. Updated LoginScreen and RegisterScreen with new icon and Italian layout
+- July 16, 2025. Configured app.json with custom icon and splash screen
 - July 15, 2025. Fixed 500 server errors and MIME type issues by cleaning web artifacts
 - July 15, 2025. Removed conflicting server/client web files and created pure React Native setup
 - July 15, 2025. Tunnel working at exp://jrimnl4-anonymous-8081.exp.direct with cache cleared
