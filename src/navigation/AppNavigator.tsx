@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useAuth } from '../context/AuthContext';
 import LoginScreen from '../screens/LoginScreen';
@@ -44,9 +43,5 @@ export default function AppNavigator() {
     return null; // Could add a loading screen here
   }
 
-  return (
-    <NavigationContainer>
-      {isAuthenticated ? <MainNavigator /> : <AuthNavigator />}
-    </NavigationContainer>
-  );
+  return isAuthenticated ? <MainNavigator /> : <AuthNavigator />;
 }
