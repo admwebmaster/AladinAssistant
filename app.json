@@ -3,29 +3,11 @@
     "name": "Aladin IA Assistente",
     "slug": "aladin-ia-assistente",
     "version": "1.0.0",
-    "main": "index.js",
+    "main": "index.ts",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+      "backgroundColor": "#6A5ACD"
     },
     "platforms": ["ios", "android", "web"]
   }
