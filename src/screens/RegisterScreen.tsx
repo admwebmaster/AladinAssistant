@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import { RegisterData } from '../api/api';
-import iconImage from '../../attached_assets/icon_transparent_1024_1752628836801.png';
+import iconImage from '../../../attached_assets/icon_transparent_1024_1752628836801.png';
 
 interface RegisterScreenProps {
   navigation: any;
@@ -152,23 +152,18 @@ export default function RegisterScreen({ navigation }: RegisterScreenProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#6B5CE7',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 50,
+    paddingBottom: 30,
   },
   formContainer: {
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 40,
     width: '100%',
-    maxWidth: 400,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 8,
+    flex: 1,
+    justifyContent: 'center',
   },
   iconContainer: {
     width: 80,
@@ -183,15 +178,15 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   title: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#B8B5FF',
+    fontSize: 28,
+    fontWeight: '700',
+    color: '#FFFFFF',
     marginBottom: 8,
     textAlign: 'center',
   },
   subtitle: {
-    fontSize: 15,
-    color: '#666',
+    fontSize: 16,
+    color: '#E8E5FF',
     textAlign: 'center',
     marginBottom: 32,
   },
@@ -200,39 +195,46 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   label: {
-    fontSize: 15,
-    fontWeight: '500',
-    color: '#333',
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#FFFFFF',
     marginBottom: 8,
   },
   input: {
-    borderWidth: 1,
-    borderColor: '#E5E5E5',
-    borderRadius: 8,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 12,
     padding: 16,
     fontSize: 16,
-    backgroundColor: '#fff',
     color: '#333',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
   },
   registerButton: {
-    backgroundColor: '#6B5CE7',
-    borderRadius: 8,
-    padding: 16,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 18,
     width: '100%',
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: 16,
     marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
   },
   registerButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
+    color: '#6B5CE7',
+    fontSize: 18,
+    fontWeight: '700',
   },
   loginLink: {
-    marginTop: 8,
+    marginTop: 16,
   },
   loginLinkText: {
-    color: '#6B5CE7',
-    fontSize: 15,
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '500',
+    textDecorationLine: 'underline',
   },
 });
