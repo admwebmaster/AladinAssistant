@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import { LoginData } from '../api/api';
-import iconImage from '../../../attached_assets/icon_transparent_1024_1752628836801.png';
+const iconImage = require('../../../attached_assets/icon_transparent_1024_1752628836801.png');
 
 interface LoginScreenProps {
   navigation: any;
